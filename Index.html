@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder Pro</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2A2A72;
+      --secondary-color: #009FFD;
+      --accent-color: #FFA400;
+      --text-color: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--text-color);
+    }
+
+    .navbar {
+      background: var(--primary-color);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+    }
+
+    .container {
+      margin-top: 80px;
+      padding: 2rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .resume-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .premium-features {
+      background: var(--secondary-color);
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+    }
+
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-section h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.5rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+    }
+
+    .preview-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .resume-template {
+      background: white;
+      min-height: 1000px;
+      position: relative;
+    }
+
+    .header-section {
+      background: var(--primary-color);
+      color: white;
+      padding: 2rem;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .social-icons {
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      color: white;
+      margin-right: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .resume-body {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      border-right: 3px solid var(--accent-color);
+      padding-right: 2rem;
+    }
+
+    .chart {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .btn {
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .auth-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 1001;
+    }
+
+    footer {
+      background: var(--primary-color);
+      color: white;
+      padding: 2rem 5%;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">ResumePro</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#premium">Premium</a>
+      <button class="btn" onclick="showAuthModal('login')">Login</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Resume Form -->
+    <div class="resume-form">
+      <h2>Build Your Resume</h2>
+      <div class="premium-features">
+        <h3>Premium Features</h3>
+        <p>Unlock advanced templates, analytics, and more!</p>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="form-section">
+        <h3>Personal Information</h3>
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="tel" placeholder="Phone Number">
+      </div>
+
+      <!-- Professional Section -->
+      <div class="form-section">
+        <h3>Professional Details</h3>
+        <textarea placeholder="Professional Summary"></textarea>
+        <input type="text" placeholder="Current Position">
+        <input type="url" placeholder="LinkedIn Profile">
+      </div>
+
+      <!-- Premium Sections (Visible when logged in) -->
+      <div class="form-section premium-only" style="display: none;">
+        <h3>Advanced Details</h3>
+        <input type="text" placeholder="Certifications">
+        <textarea placeholder="Project Portfolio"></textarea>
+        <input type="number" placeholder="Years of Experience">
+      </div>
+
+      <button class="btn" onclick="generateResume()">Generate Preview</button>
+      <button class="btn" onclick="generatePDF()">Download PDF</button>
+    </div>
+
+    <!-- Resume Preview -->
+    <div class="preview-section">
+      <div class="resume-template">
+        <div class="header-section">
+          <h1>John Doe</h1>
+          <p>Software Engineer</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="resume-body">
+          <div class="sidebar">
+            <h3>Contact</h3>
+            <p>john@email.com</p>
+            <p>(123) 456-7890</p>
+            
+            <h3>Skills</h3>
+            <div class="chart">
+              <!-- Skill chart would be implemented with JS -->
+            </div>
+          </div>
+          <div class="main-content">
+            <h3>Experience</h3>
+            <div class="experience-item">
+              <h4>Senior Developer</h4>
+              <p>Tech Corp (2018-Present)</p>
+              <ul>
+                <li>Led team of 10 developers</li>
+                <li>Implemented AI solutions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="auth-modal">
+    <h2 id="modalTitle">Login</h2>
+    <input type="email" id="authEmail" placeholder="Email">
+    <input type="password" id="authPassword" placeholder="Password">
+    <button class="btn" onclick="handleAuth()">Submit</button>
+    <p id="authSwitch">Don't have an account? <a href="#" onclick="toggleAuthMode()">Sign Up</a></p>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 ResumePro. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+  </footer>
+
+  <script>
+    // Authentication System
+    let isLoggedIn = false;
+    let isPremium = false;
+    let currentAuthMode = 'login';
+
+    function showAuthModal(mode) {
+      currentAuthMode = mode;
+      document.getElementById('modalTitle').textContent = mode === 'login' ? 'Login' : 'Sign Up';
+      document.getElementById('authSwitch').innerHTML = mode === 'login' 
+        ? 'Don\'t have an account? <a href="#" onclick="toggleAuthMode()">Sign Up</a>'
+        : 'Already have an account? <a href="#" onclick="toggleAuthMode()">Login</a>';
+      document.getElementById('authModal').style.display = 'block';
+    }
+
+    function toggleAuthMode() {
+      currentAuthMode = currentAuthMode === 'login' ? 'signup' : 'login';
+      showAuthModal(currentAuthMode);
+    }
+
+    function handleAuth() {
+      // Implement proper authentication logic
+      isLoggedIn = true;
+      isPremium = true; // Simulate premium access
+      document.getElementById('authModal').style.display = 'none';
+      document.querySelectorAll('.premium-only').forEach(el => el.style.display = 'block');
+    }
+
+    // Resume Generation Logic
+    function generateResume() {
+      // Implement resume generation logic
+    }
+
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Add advanced PDF formatting
+      doc.setFontSize(22);
+      doc.text('Professional Resume', 20, 20);
+      doc.setFontSize(12);
+      doc.text('John Doe', 20, 30);
+      
+      // Add more sections
+      doc.save('resume.pdf');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target === document.getElementById('authModal')) {
+        document.getElementById('authModal').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
