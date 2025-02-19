@@ -27,7 +27,7 @@
     }
 
     .navbar {
-      background: var(--primary-color);
+      background: va ser(--primary-color);
       padding: 1rem 5%;
       display: flex;
       justify-content: space-between;
@@ -304,37 +304,37 @@
     </div>
   </footer>
 
-  <script>
+  //<script>
     // Authentication System
-    let isLoggedIn = false;
-    let isPremium = false;
-    let currentAuthMode = 'login';
+   // let isLoggedIn = false;
+   // let isPremium = false;
+   // let currentAuthMode = 'login';
 
-    function showAuthModal(mode) {
-      currentAuthMode = mode;
-      document.getElementById('modalTitle').textContent = mode === 'login' ? 'Login' : 'Sign Up';
-      document.getElementById('authSwitch').innerHTML = mode === 'login' 
-        ? 'Don\'t have an account? <a href="#" onclick="toggleAuthMode()">Sign Up</a>'
-        : 'Already have an account? <a href="#" onclick="toggleAuthMode()">Login</a>';
-      document.getElementById('authModal').style.display = 'block';
-    }
+   // function showAuthModal(mode) {
+     // currentAuthMode = mode;
+     // document.getElementById('modalTitle').textContent = mode === 'login' ? 'Login' : 'Sign Up';
+    //  document.getElementById('authSwitch').innerHTML = mode === 'login' 
+       // ? 'Don\'t have an account? <a href="#" onclick="toggleAuthMode()">Sign Up</a>'
+       // : 'Already have an account? <a href="#" onclick="toggleAuthMode()">Login</a>';
+     // document.getElementById('authModal').style.display = 'block';
+  //  }
 
-    function toggleAuthMode() {
-      currentAuthMode = currentAuthMode === 'login' ? 'signup' : 'login';
-      showAuthModal(currentAuthMode);
-    }
+   // function toggleAuthMode() {
+  //   // currentAuthMode = currentAuthMode === 'login' ? 'signup' : 'login';
+     // showAuthModal(currentAuthMode);
+   // }
 
-    function handleAuth() {
+   // function handleAuth() {
       // Implement proper authentication logic
-      isLoggedIn = true;
-      isPremium = true; // Simulate premium access
-      document.getElementById('authModal').style.display = 'none';
-      document.querySelectorAll('.premium-only').forEach(el => el.style.display = 'block');
-    }
+    //  isLoggedIn = true;
+    //  isPremium = true; // Simulate premium access
+    //  document.getElementById('authModal').style.display = 'none';
+    //  document.querySelectorAll('.premium-only').forEach(el => el.style.display = 'block');
+   // }//
 
-    // Resume Generation Logic
+    //Resume Generation Logic
     function generateResume() {
-      // Implement resume generation logic
+       Implement resume generation logic
     }
 
     function generatePDF() {
